@@ -1,2 +1,1 @@
-print("Warrior")
-print("Enemy")
+
