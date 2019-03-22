@@ -1,0 +1,2 @@
+print("Warrior")
+print("Enemy")
