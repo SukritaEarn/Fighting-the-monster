@@ -4,7 +4,7 @@ class Warrior:
         self.x = x
         self.y = y
     
-    def update(self):
+    def update(self, delta):
         pass
 
 class World:

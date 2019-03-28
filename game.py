@@ -6,8 +6,8 @@ SCREEN_HEIGHT = 600
 
 class ModelSprite(arcade.Sprite):
     def __init__(self, *args, **kwargs):
-        self.model = kwargs.pop('Model', None)
-        super.__init__(*args, **kwargs)
+        self.model = kwargs.pop('model', None)
+        super().__init__(*args, **kwargs)
 
     def sync_with_model(self):
         if self.model:
