@@ -12,7 +12,7 @@ class World:
         self.width = width
         self.height = height
         
-        self.warrior = Warrior(self, 60, 100)
+        self.warrior = Warrior(self, 100, 100)
     
     def update(self, delta):
         self.warrior.update(delta)
