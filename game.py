@@ -1,5 +1,5 @@
 import arcade
-from models import World, Warrior
+from models import World, Warrior, Monster
 
 SCREEN_WIDTH = 1000
 SCREEN_HEIGHT = 600
@@ -20,10 +20,13 @@ class ModelSprite(arcade.Sprite):
 class GameWindow(arcade.Window):
     def __init__(self, width, height):
         super().__init__(width, height)
-        arcade.set_background_color(arcade.color.WHITE)
-        
+        self.background = arcade.load_texture('images/bg.png')
         self.world = World(SCREEN_WIDTH, SCREEN_HEIGHT)
-        self.warrior_sprite = ModelSprite('images/warrior.png', model=self.world.warrior)
+
+        self.warrior_sprite = ModelSprite('images/warrior.png', 
+                                        model=self.world.warrior)
+        self.monster_sprite = ModelSprite('images/mon1.png',
+                                        model=self.world.monster)
     
     def update(self, delta):
         self.world.update(delta)
@@ -31,7 +34,11 @@ class GameWindow(arcade.Window):
     def on_draw(self):
         arcade.start_render()
         
+        arcade.draw_texture_rectangle(SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2,
+                                      SCREEN_WIDTH, SCREEN_HEIGHT, self.background)
+
         self.warrior_sprite.draw()
+        self.monster_sprite.draw()
 
 def main():
     window = GameWindow(SCREEN_WIDTH, SCREEN_HEIGHT)
