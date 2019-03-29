@@ -3,6 +3,7 @@ from models import World, Warrior, Monster
 
 SCREEN_WIDTH = 1000
 SCREEN_HEIGHT = 600
+SCREEN_TITLE = 'Fighting the monster'
 
 class ModelSprite(arcade.Sprite):
     def __init__(self, *args, **kwargs):
@@ -18,8 +19,8 @@ class ModelSprite(arcade.Sprite):
         super().draw()
 
 class GameWindow(arcade.Window):
-    def __init__(self, width, height):
-        super().__init__(width, height)
+    def __init__(self, width, height, title):
+        super().__init__(width, height, title)
         self.background = arcade.load_texture('images/bg.png')
         self.world = World(SCREEN_WIDTH, SCREEN_HEIGHT)
 
@@ -27,6 +28,19 @@ class GameWindow(arcade.Window):
                                         model=self.world.warrior)
         self.monster_sprite = ModelSprite('images/mon1.png',
                                         model=self.world.monster)
+        self.war_wea_sprite = ModelSprite('images/war_wea.png',
+                                        model=self.world.war_wea)
+
+    def on_mouse_motion(self):
+        pass
+
+    def on_mouse_press(self, button, modifiers):
+        if button == arcade.MOUSE_BUTTON_LEFT:
+            self.war_wea_sprite.draw()
+    
+    def on_mouse_release(self, x, y, button, modifiers):
+        if button == arcade.MOUSE_BUTTON_LEFT:
+            pass
     
     def update(self, delta):
         self.world.update(delta)
@@ -41,7 +55,7 @@ class GameWindow(arcade.Window):
         self.monster_sprite.draw()
 
 def main():
-    window = GameWindow(SCREEN_WIDTH, SCREEN_HEIGHT)
+    window = GameWindow(SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_TITLE)
     arcade.set_window(window)
     arcade.run()
 
