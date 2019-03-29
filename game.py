@@ -30,6 +30,17 @@ class GameWindow(arcade.Window):
                                         model=self.world.monster)
         self.war_wea_sprite = ModelSprite('images/war_wea.png',
                                         model=self.world.war_wea)
+
+    def on_mouse_motion(self, x, y, button, modifiers):
+        pass
+
+    def on_mouse_press(self, x, y, button, modifiers):
+        if button == arcade.MOUSE_BUTTON_LEFT:
+            self.war_wea_sprite.draw()
+    
+    def on_mouse_release(self, x, y, button, modifiers):
+        if button == arcade.MOUSE_BUTTON_LEFT:
+            pass
     
     def update(self, delta):
         self.world.update(delta)
