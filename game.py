@@ -31,17 +31,9 @@ class GameWindow(arcade.Window):
         self.war_wea_sprite = ModelSprite('images/war_wea.png',
                                         model=self.world.war_wea)
 
-    def on_mouse_motion(self, x, y, button, modifiers):
-        pass
+    def on_key_press(self, key, key_modifiers):
+         self.world.on_key_press(key, key_modifiers)
 
-    def on_mouse_press(self, x, y, button, modifiers):
-        if button == arcade.MOUSE_BUTTON_LEFT:
-            self.war_wea_sprite.draw()
-    
-    def on_mouse_release(self, x, y, button, modifiers):
-        if button == arcade.MOUSE_BUTTON_LEFT:
-            pass
-    
     def update(self, delta):
         self.world.update(delta)
 
@@ -53,6 +45,7 @@ class GameWindow(arcade.Window):
 
         self.warrior_sprite.draw()
         self.monster_sprite.draw()
+        self.war_wea_sprite.draw()
 
 def main():
     window = GameWindow(SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_TITLE)
