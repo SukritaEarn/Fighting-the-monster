@@ -26,13 +26,22 @@ class GameWindow(arcade.Window):
 
         self.warrior_sprite = ModelSprite('images/warrior.png', 
                                         model=self.world.warrior)
-        self.monster_sprite = ModelSprite('images/mon1.png',
+        self.monster_sprite = ModelSprite('images/mon.png',
                                         model=self.world.monster)
-        self.war_wea_sprite = ModelSprite('images/war_wea.png',
-                                        model=self.world.war_wea)
+        self.war_wea1_sprite = ModelSprite('images/war_wea1.png',
+                                        model=self.world.war_wea1)
+        self.war_wea2_sprite = ModelSprite('images/war_wea2.png',
+                                        model=self.world.war_wea2)
+    #def on_mouse_motion(self, x, y, dx, dy):
+         #self.world.on_mouse_motion(x, y, dx, dy)
 
-    def on_key_press(self, key, key_modifiers):
-         self.world.on_key_press(key, key_modifiers)
+    def on_mouse_press(self, x, y, button, modifiers):
+        self.world.on_mouse_press(x, y, button, modifiers)
+
+    def on_mouse_release(self, x, y, button, modifiers):
+        if not self.world.is_started():
+            self.world.start()
+        self.world.on_mouse_release(x, y, button, modifiers)
 
     def update(self, delta):
         self.world.update(delta)
@@ -43,9 +52,10 @@ class GameWindow(arcade.Window):
         arcade.draw_texture_rectangle(SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2,
                                       SCREEN_WIDTH, SCREEN_HEIGHT, self.background)
 
+        self.war_wea1_sprite.draw()
+        self.war_wea2_sprite.draw()
         self.warrior_sprite.draw()
         self.monster_sprite.draw()
-        self.war_wea_sprite.draw()
 
 def main():
     window = GameWindow(SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_TITLE)
