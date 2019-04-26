@@ -8,6 +8,7 @@ class Warrior:
         self.world = world
         self.x = x
         self.y = y
+        self.angle = 0
     
     def update(self, delta):
         pass
@@ -17,6 +18,7 @@ class Monster:
         self.world = world
         self.x = x
         self.y = y
+        self.angle = 0
 
     def update(self, delta):
         pass
@@ -51,35 +53,7 @@ class War_Wea1:
         self.y += self.vy
         if self.y >= 580:
             self.vy = -self.vy
-
-class War_Wea2:
-    
-    STARTING_VELOCITY = 10
-    THROWING_VELOCITY = 10
-
-    def __init__(self, world, x, y):
-        self.world = world
-        self.x = x
-        self.y = y
-        self.h = 0
-        self.vy = War_Wea2.STARTING_VELOCITY
-        self.vx = War_Wea2.STARTING_VELOCITY
-
-    def throw(self, war, mon):
-        start_x = war.x
-        start_y = war.y
-        dest_x = mon.x
-        dest_y = mon.y
-        x_diff = dest_x - start_x
-        y_diff = dest_y - start_y
-        angle = math.atan2(y_diff, x_diff)
-        self.vx = math.cos(angle) * War_Wea2.THROWING_VELOCITY
-        self.vy = math.sin(angle) * War_Wea2.THROWING_VELOCITY
-        self.h = math.ceil(((self.vy**2)(math.sin(angle)**2))/20)
-
-    def update(self, delta):
-        self.x += self.vx
-        self.y -= self.vy
+            self.angle -= 90
 
 class Mon_Wea1:
 
@@ -93,6 +67,7 @@ class Mon_Wea1:
         self.vx = Mon_Wea1.VELOCITY_X
         self.vy = Mon_Wea1.VELOCITY_Y
         self.h = 0
+        self.angle = 0
 
     def throw(self, war, mon):
         start_x = war.x
@@ -110,6 +85,7 @@ class Mon_Wea1:
         self.y += self.vy
         if self.y >= 580:
             self.vy = -self.vy
+            self.angle = 90
 
 class World:
 
@@ -127,7 +103,6 @@ class World:
         self.monster = Monster(self, 850, 230)
         self.war_wea1 = War_Wea1(self, 120, 200)
         self.mon_wea1 = Mon_Wea1(self, 850, 200)
-        #self.war_wea2 = War_Wea2(self, self.war_wea1.x, self.war_wea1.y)
 
     def start(self):
         self.state = World.STATE_STARTED
