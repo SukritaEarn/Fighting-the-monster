@@ -30,8 +30,10 @@ class GameWindow(arcade.Window):
                                         model=self.world.monster)
         self.war_wea1_sprite = ModelSprite('images/war_wea1.png',
                                         model=self.world.war_wea1)
-        self.war_wea2_sprite = ModelSprite('images/war_wea2.png',
-                                        model=self.world.war_wea2)
+        #self.war_wea2_sprite = ModelSprite('images/war_wea2.png',
+                                        #model=self.world.war_wea2)
+        self.mon_wea1_sprite = ModelSprite('images/mon_wea1.png',
+                                        model=self.world.mon_wea1)
     #def on_mouse_motion(self, x, y, dx, dy):
          #self.world.on_mouse_motion(x, y, dx, dy)
 
@@ -53,7 +55,8 @@ class GameWindow(arcade.Window):
                                       SCREEN_WIDTH, SCREEN_HEIGHT, self.background)
 
         self.war_wea1_sprite.draw()
-        self.war_wea2_sprite.draw()
+        #self.war_wea2_sprite.draw()
+        self.mon_wea1_sprite.draw()
         self.warrior_sprite.draw()
         self.monster_sprite.draw()
 
