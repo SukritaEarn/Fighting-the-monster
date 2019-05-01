@@ -23,7 +23,7 @@ class Monster:
     def update(self, delta):
         pass
 
-class War_Wea1:
+class War_Wea:
 
     VELOCITY_X = 10
     VELOCITY_Y = 0
@@ -32,8 +32,8 @@ class War_Wea1:
         self.world = world
         self.x = x
         self.y = y
-        self.vx = War_Wea1.VELOCITY_X
-        self.vy = War_Wea1.VELOCITY_Y
+        self.vx = War_Wea.VELOCITY_X
+        self.vy = War_Wea.VELOCITY_Y
         self.h = 0
         self.angle = 0
 
@@ -101,7 +101,7 @@ class World:
         
         self.warrior = Warrior(self, 120, 210)
         self.monster = Monster(self, 850, 230)
-        self.war_wea1 = War_Wea1(self, 120, 200)
+        self.war_wea = War_Wea(self, 120, 200)
         self.mon_wea1 = Mon_Wea1(self, 850, 200)
 
     def start(self):
@@ -124,13 +124,13 @@ class World:
     def on_mouse_release(self, x, y, button, modifiers):
         if button == arcade.MOUSE_BUTTON_LEFT:
             World.END_TIME = time.time()
-            self.war_wea1.throw(self.warrior, self.monster)
+            self.war_wea.throw(self.warrior, self.monster)
             print(World.END_TIME - World.START_TIME)
-            print(self.war_wea1.vy)
-            print(self.war_wea1.h)
+            print(self.war_wea.vy)
+            print(self.war_wea.h)
 
     def update(self, delta):
         if self.state == World.STATE_STARTED:
-            self.war_wea1.update(delta)
-        if self.war_wea1.x >= self.width:
+            self.war_wea.update(delta)
+        if self.war_wea.x >= self.width:
             self.mon_wea1.update(delta)

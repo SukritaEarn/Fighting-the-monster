@@ -29,7 +29,7 @@ class GameWindow(arcade.Window):
                                         model=self.world.warrior)
         self.monster_sprite = ModelSprite('images/mon.png',
                                         model=self.world.monster)
-        self.war_wea1_sprite = ModelSprite('images/war_wea1.png',
+        self.war_wea_sprite = ModelSprite('images/war_wea.png',
                                         model=self.world.war_wea1)
         self.mon_wea1_sprite = ModelSprite('images/mon_wea1.png',
                                         model=self.world.mon_wea1)
@@ -53,7 +53,7 @@ class GameWindow(arcade.Window):
         arcade.draw_texture_rectangle(SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2,
                                       SCREEN_WIDTH, SCREEN_HEIGHT, self.background)
 
-        self.war_wea1_sprite.draw()
+        self.war_wea_sprite.draw()
         self.mon_wea1_sprite.draw()
         self.warrior_sprite.draw()
         self.monster_sprite.draw()
