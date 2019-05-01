@@ -1,4 +1,4 @@
-import arcade.key
+import arcade
 import math
 import time
 import random
@@ -23,10 +23,31 @@ class Monster:
     def update(self, delta):
         pass
 
+class War_HP:
+    def __init__(self, world, x, y):
+        self.world = world
+        self.x = x
+        self.y = y
+        self.angle = 0
+        
+    def update(self, delta):
+        pass
+
+class Mon_HP:
+    def __init__(self, world, x, y):
+        self.world = world
+        self.x = x
+        self.y = y
+        self.angle = 0
+        
+    def update(self, delta):
+        pass
+
 class War_Wea:
 
     VELOCITY_X = 10
     VELOCITY_Y = 0
+    GRAVITY = 0.088
 
     def __init__(self, world, x, y):
         self.world = world
@@ -34,58 +55,41 @@ class War_Wea:
         self.y = y
         self.vx = War_Wea.VELOCITY_X
         self.vy = War_Wea.VELOCITY_Y
-        self.h = 0
         self.angle = 0
 
     def throw(self, war, mon):
-        start_x = war.x
-        start_y = war.y
-        dest_x = mon.x
-        dest_y = mon.y
-        x_diff = dest_x - start_x
-        y_diff = dest_y - start_y
-        angle = math.atan2(y_diff, x_diff)
-        self.vy = (World.END_TIME - World.START_TIME)*8
-        self.h = ((self.vy**2)*(math.sin(2*angle)))
+        self.vy = (World.END_TIME - World.START_TIME)*5
+
+    def check_hit(self, mon):
+        if 160 <= self.y <= 340:
+            return True
+        return False
 
     def update(self, delta):
         self.x += self.vx
         self.y += self.vy
-        if self.y >= 580:
-            self.vy = -self.vy
-            self.angle -= 90
+        self.vy -= War_Wea.GRAVITY
+        self.angle -= 1
 
-class Mon_Wea1:
+class Mon_Wea:
 
     VELOCITY_X = 10
-    VELOCITY_Y = random.randint(6,9)
-
+    VELOCITY_Y = random.randint(2,7)
+    GRAVITY = 0.088
+    
     def __init__(self, world, x, y):
         self.world = world
         self.x = x
         self.y = y
-        self.vx = Mon_Wea1.VELOCITY_X
-        self.vy = Mon_Wea1.VELOCITY_Y
-        self.h = 0
+        self.vx = Mon_Wea.VELOCITY_X
+        self.vy = Mon_Wea.VELOCITY_Y
         self.angle = 0
-
-    def throw(self, war, mon):
-        start_x = war.x
-        start_y = war.y
-        dest_x = mon.x
-        dest_y = mon.y
-        x_diff = dest_x - start_x
-        y_diff = dest_y - start_y
-        angle = math.atan2(y_diff, x_diff)
-        self.vy = (World.END_TIME - World.START_TIME)*8
-        self.h = ((self.vy**2)*(math.sin(2*angle)))
 
     def update(self, delta):
         self.x -= self.vx
         self.y += self.vy
-        if self.y >= 580:
-            self.vy = -self.vy
-            self.angle = 90
+        self.vy -= Mon_Wea.GRAVITY
+        self.angle += 0.7
 
 class World:
 
@@ -101,8 +105,10 @@ class World:
         
         self.warrior = Warrior(self, 120, 210)
         self.monster = Monster(self, 850, 230)
-        self.war_wea = War_Wea(self, 120, 200)
-        self.mon_wea1 = Mon_Wea1(self, 850, 200)
+        self.war_wea = War_Wea(self, 120, 250)
+        self.mon_wea = Mon_Wea(self, 850, 250)
+        self.war_hp = War_HP(self, 450, 530)
+        self.mon_hp = Mon_HP(self, 550, 530)
 
     def start(self):
         self.state = World.STATE_STARTED
@@ -113,9 +119,17 @@ class World:
     def is_started(self):
         return self.state == World.STATE_STARTED
 
-    #def on_mouse_motion(self, x, y, dx, dy):
-        #self.war_wea.x = x
-        #self.war_wea.y = y
+    def reset(self):
+        self.war_wea.x = 120
+        self.war_wea.y = 250
+        self.war_wea.vx = 10
+        self.war_wea.vy = 0
+        self.war_wea.angle = 0
+        self.mon_wea.x = 850
+        self.mon_wea.y = 250
+        self.mon_wea.vx = 10
+        self.mon_wea.vy = random.randint(2,7)
+        self.mon_wea.angle = 0
 
     def on_mouse_press(self, x, y, button, modifiers):
         if button == arcade.MOUSE_BUTTON_LEFT:
@@ -125,12 +139,12 @@ class World:
         if button == arcade.MOUSE_BUTTON_LEFT:
             World.END_TIME = time.time()
             self.war_wea.throw(self.warrior, self.monster)
-            print(World.END_TIME - World.START_TIME)
-            print(self.war_wea.vy)
-            print(self.war_wea.h)
 
     def update(self, delta):
         if self.state == World.STATE_STARTED:
             self.war_wea.update(delta)
-        if self.war_wea.x >= self.width:
-            self.mon_wea1.update(delta)
+        if self.war_wea.x >= self.monster.x:
+            self.mon_wea.update(delta)
+        if self.mon_wea.x <= -35:
+            self.state = World.STATE_FROZEN
+            self.reset()

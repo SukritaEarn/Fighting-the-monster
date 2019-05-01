@@ -30,12 +30,14 @@ class GameWindow(arcade.Window):
         self.monster_sprite = ModelSprite('images/mon.png',
                                         model=self.world.monster)
         self.war_wea_sprite = ModelSprite('images/war_wea.png',
-                                        model=self.world.war_wea1)
-        self.mon_wea1_sprite = ModelSprite('images/mon_wea1.png',
-                                        model=self.world.mon_wea1)
-    #def on_mouse_motion(self, x, y, dx, dy):
-         #self.world.on_mouse_motion(x, y, dx, dy)
-
+                                        model=self.world.war_wea)
+        self.mon_wea_sprite = ModelSprite('images/mon_wea.png',
+                                        model=self.world.mon_wea)
+        self.war_hp_sprite = ModelSprite('images/war_hp.png',
+                                        model=self.world.war_hp)
+        self.mon_hp_sprite = ModelSprite('images/mon_hp.png',
+                                        model=self.world.mon_hp)
+                
     def on_mouse_press(self, x, y, button, modifiers):
         self.world.on_mouse_press(x, y, button, modifiers)
 
@@ -54,9 +56,21 @@ class GameWindow(arcade.Window):
                                       SCREEN_WIDTH, SCREEN_HEIGHT, self.background)
 
         self.war_wea_sprite.draw()
-        self.mon_wea1_sprite.draw()
+        self.mon_wea_sprite.draw()
         self.warrior_sprite.draw()
         self.monster_sprite.draw()
+        
+        arcade.draw_rectangle_filled(250, 530, 360, 32, arcade.color.BLACK_BEAN)
+        arcade.draw_circle_filled(450, 530, 33, arcade.color.BLACK_BEAN)
+        arcade.draw_rectangle_filled(250, 530, 350, 22, arcade.color.RED_BROWN)
+        arcade.draw_circle_filled(450, 530, 28, arcade.color.RED_BROWN)
+        self.war_hp_sprite.draw()
+        
+        arcade.draw_rectangle_filled(750, 530, 360, 32, arcade.color.BLACK_BEAN)
+        arcade.draw_circle_filled(550, 530, 33, arcade.color.BLACK_BEAN)
+        arcade.draw_rectangle_filled(750, 530, 350, 22, arcade.color.RED_BROWN)
+        arcade.draw_circle_filled(550, 530, 28, arcade.color.RED_BROWN)
+        self.mon_hp_sprite.draw()
 
 def main():
     window = GameWindow(SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_TITLE)
