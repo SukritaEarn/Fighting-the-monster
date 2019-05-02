@@ -37,6 +37,11 @@ class GameWindow(arcade.Window):
                                         model=self.world.war_hp)
         self.mon_hp_sprite = ModelSprite('images/mon_hp.png',
                                         model=self.world.mon_hp)
+
+    def hit_mons(self):
+        hit = arcade.check_for_collision(self.war_wea_sprite, self.monster_sprite)
+        if hit:
+            print('hit')
                 
     def on_mouse_press(self, x, y, button, modifiers):
         self.world.on_mouse_press(x, y, button, modifiers)

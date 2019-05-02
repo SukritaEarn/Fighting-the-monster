@@ -56,14 +56,28 @@ class War_Wea:
         self.vx = War_Wea.VELOCITY_X
         self.vy = War_Wea.VELOCITY_Y
         self.angle = 0
+        self.war_wea_list = []
 
-    def throw(self, war, mon):
-        self.vy = (World.END_TIME - World.START_TIME)*5
+    def throw(self, start, end):
+        #self.vy = (World.END_TIME - World.START_TIME)*5
+        self.vy = (end - start)*5
 
     def check_hit(self, mon):
-        if 160 <= self.y <= 340:
-            return True
-        return False
+        if 320 <= self.y <= 340 and self.x == 850:
+            return 1
+        elif 171 <= self.y <= 319 and self.x == 850:
+            return 2
+        elif 120 <= self.y <= 170 and self.x == 850:
+            return 3
+        elif self.y >= 341 and self.x == 850:
+            return 4
+        elif self.y <= 119 and self.x == 850:
+            return 5
+
+    def kill(self, x, y, angle):
+        self.x = x
+        self.y = y
+        self.angle = angle
 
     def update(self, delta):
         self.x += self.vx
@@ -138,13 +152,23 @@ class World:
     def on_mouse_release(self, x, y, button, modifiers):
         if button == arcade.MOUSE_BUTTON_LEFT:
             World.END_TIME = time.time()
-            self.war_wea.throw(self.warrior, self.monster)
+            self.war_wea.throw(World.START_TIME, World.END_TIME)
 
     def update(self, delta):
         if self.state == World.STATE_STARTED:
             self.war_wea.update(delta)
         if self.war_wea.x >= self.monster.x:
+            #if self.war_wea.check_hit(self.monster) == 1:
+                #print('headshot')
+            #if self.war_wea.check_hit(self.monster) == 2:
+                #print('bodyhit')
+            #if self.war_wea.check_hit(self.monster) == 3:
+                #print('scrape')
+            #else:
+                #print('miss')
             self.mon_wea.update(delta)
+            
         if self.mon_wea.x <= -35:
             self.state = World.STATE_FROZEN
+            print((World.END_TIME - World.START_TIME) * 5)
             self.reset()
