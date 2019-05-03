@@ -82,10 +82,6 @@ class War_Wea:
         elif self.y <= 119 and self.x == 850:
             return 5
 
-    def kill(self):
-        self.x = 120
-        self.y = 250
-
     def update(self, delta):
         self.x += self.vx
         self.y += self.vy
@@ -120,10 +116,6 @@ class Mon_Wea:
         elif self.y <= 101 and self.x == 120:
             return 5
 
-    def kill(self):
-        self.x = 120
-        self.y = 210
-
     def update(self, delta):
         self.wait_time += delta
         if self.wait_time < Mon_Wea.THROW_WAIT:
@@ -137,6 +129,7 @@ class World:
 
     STATE_FROZEN = 1
     STATE_STARTED = 2
+    STATE_DEAD = 3
     START_TIME = 0
     END_TIME = 0
 

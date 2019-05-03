@@ -42,7 +42,7 @@ class GameWindow(arcade.Window):
         self.power_sprite = Power(160, 310, 160, 310, 10)
         self.check_press = None
         self.reduce_mon_hp = Reduce_Mon_HP(925, 530, 0, 22)
-        self.reduce_war_hp = Reduce_Mon_HP(75, 530, 0, 22)
+        self.reduce_war_hp = Reduce_War_HP(75, 530, 0, 22)
         #self.miss1_sprite = Miss(120, 300)
         #self.miss2_sprite = Miss(850, 300)
     
@@ -94,17 +94,15 @@ class GameWindow(arcade.Window):
         if self.check_press == 2:
             self.power_sprite.remove()
 
-        # if self.world.war_wea.check_hit() in [1,2,3]:
-        #     self.reduce_mon_hp.update()
-
-        if
+        if self.world.war_wea.check_hit() in [1,2,3]:
+            self.reduce_mon_hp.update()
 
         if self.world.war_wea.check_hit() in [4,5]:
             #self.miss2_sprite.miss()
             pass
 
-        # if self.world.mon_wea.check_hit() in [1,2,3]:
-        #     self.reduce_war_hp.update()
+        if self.world.mon_wea.check_hit() in [1,2,3]:
+            self.reduce_war_hp.update()
 
         if self.world.mon_wea.check_hit() in [4,5]:
             #self.miss1_sprite.miss()
@@ -169,6 +167,15 @@ class Power:
 
     def update(self, delta):
         self.x2 -= 1
+
+class Wind:
+
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
+    
+    def update(self):
+        pass
         
 def main():
     window = GameWindow(SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_TITLE)
