@@ -41,8 +41,10 @@ class GameWindow(arcade.Window):
                                             center_x = 850, center_y = 300)
         self.power_sprite = Power(160, 310, 160, 310, 10)
         self.check_press = None
-        self.reduce_mon_hp = Reduce_Mon_HP(910, 530, 30, 22)
-        self.reduce_war_hp = Reduce_Mon_HP(90, 530, 30, 22)
+        self.reduce_mon_hp = Reduce_Mon_HP(925, 530, 0, 22)
+        self.reduce_war_hp = Reduce_Mon_HP(75, 530, 0, 22)
+        #self.miss1_sprite = Miss(120, 300)
+        #self.miss2_sprite = Miss(850, 300)
     
     def on_mouse_press(self, x, y, button, modifiers):
         self.world.on_mouse_press(x, y, button, modifiers)
@@ -82,6 +84,9 @@ class GameWindow(arcade.Window):
         arcade.draw_rectangle_filled(750, 530, 350, 22, arcade.color.RED_BROWN)
         arcade.draw_circle_filled(550, 530, 28, arcade.color.RED_BROWN)
         self.mon_icon_sprite.draw()
+
+        self.reduce_mon_hp.draw()
+        self.reduce_war_hp.draw()
         
         if self.check_press == 1:
             self.power_sprite.draw()
@@ -89,17 +94,21 @@ class GameWindow(arcade.Window):
         if self.check_press == 2:
             self.power_sprite.remove()
 
-        if self.world.war_wea.check_hit() in [1,2,3]:
-            self.reduce_mon_hp.draw()
+        # if self.world.war_wea.check_hit() in [1,2,3]:
+        #     self.reduce_mon_hp.update()
+
+        if
 
         if self.world.war_wea.check_hit() in [4,5]:
-            self.reduce_mon_hp.miss()
+            #self.miss2_sprite.miss()
+            pass
 
-        if self.world.mon_wea.check_hit() in [1,2,3]:
-            self.reduce_war_hp.draw()
+        # if self.world.mon_wea.check_hit() in [1,2,3]:
+        #     self.reduce_war_hp.update()
 
         if self.world.mon_wea.check_hit() in [4,5]:
-            self.reduce_war_hp.miss()
+            #self.miss1_sprite.miss()
+            pass
 
 class Reduce_Mon_HP:
 
@@ -112,11 +121,9 @@ class Reduce_Mon_HP:
     def draw(self):
         arcade.draw_rectangle_filled(self.x, self.y, self.width, self.height, arcade.color.WHITE)
 
-    def miss(self):
-        arcade.Sprite('images/miss.png', 0.5, center_x = 850, center_y = 300)
-
-    def update(self, delta):
-        self.width -= 10
+    def update(self):
+        self.x -= 15
+        self.width += 30
 
 class Reduce_War_HP:
 
@@ -129,11 +136,21 @@ class Reduce_War_HP:
     def draw(self):
         arcade.draw_rectangle_filled(self.x, self.y, self.width, self.height, arcade.color.WHITE)
 
-    def miss(self):
-        arcade.Sprite('images/miss.png', 0.5, center_x = 120, center_y = 300)
+    def update(self):
+        self.x += 15
+        self.width += 30
 
-    def update(self, delta):
-        self.width += 10
+class Miss:
+
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
+
+    def miss(self):
+        arcade.Sprite('images/miss.png', 0.5, self.x , self.y)
+
+    def update(self):
+        pass
 
 class Power:
 

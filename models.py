@@ -68,18 +68,18 @@ class War_Wea:
         if end - start >= 5:
             start = 0
             end = 0
-        self.vy = (end - start)*1.5
+        self.vy = (end - start)*2
 
     def check_hit(self):
-        if 320 <= self.y <= 340 and self.x >= 850:
+        if 320 <= self.y <= 340 and self.x == 850:
             return 1
-        elif 171 <= self.y <= 319 and self.x >= 850:
+        elif 171 <= self.y <= 319 and self.x == 850:
             return 2
-        elif 120 <= self.y <= 170 and self.x >= 850:
+        elif 120 <= self.y <= 170 and self.x == 850:
             return 3
-        elif self.y >= 341 and self.x >= 850:
+        elif self.y >= 341 and self.x == 850:
             return 4
-        elif self.y <= 119 and self.x >= 850:
+        elif self.y <= 119 and self.x == 850:
             return 5
 
     def kill(self):
@@ -109,15 +109,15 @@ class Mon_Wea:
         self.wait_time = 0
 
     def check_hit(self):
-        if 290 <= self.y <= 318 and self.x <= 120:
+        if 280 <= self.y <= 300 and self.x == 120:
             return 1
-        elif 133 <= self.y <= 289 and self.x <= 120:
+        elif 133 <= self.y <= 279 and self.x == 120:
             return 2
-        elif 102 <= self.y <= 132 and self.x <= 120:
+        elif 102 <= self.y <= 132 and self.x == 120:
             return 3
-        elif self.y >= 319 and self.x <= 120:
+        elif self.y >= 301 and self.x == 120:
             return 4
-        elif self.y <= 101 and self.x <= 120:
+        elif self.y <= 101 and self.x == 120:
             return 5
 
     def kill(self):
