@@ -45,15 +45,11 @@ class War_Wea:
         self.vy = (end - start)*2
     
     def kill(self):
-        self.x = -1000
-        self.y = -1000
+        self.x = 2000
+        self.y = 2000
 
     def check_hit(self):
-        if 320 <= self.y <= 340 and 820 <= self.x <= 850:
-            return 1
-        elif 171 <= self.y <= 319 and 820 <= self.x <= 850:
-            return 1
-        elif 120 <= self.y <= 170 and 820 <= self.x <= 850:
+        if 120 <= self.y <= 340 and 820 <= self.x <= 850:
             return 1
         elif self.y >= 341 and 850 <= self.x <= 1000:
             return 0
@@ -71,7 +67,7 @@ class Mon_Wea:
     VELOCITY_X = 10
     VELOCITY_Y = random.randint(1,6)
     GRAVITY = 0.088
-    THROW_WAIT = 1
+    THROW_WAIT = 2
     
     def __init__(self, world, x, y):
         self.world = world
@@ -83,19 +79,15 @@ class Mon_Wea:
         self.wait_time = 0
 
     def kill(self):
-        self.x = -1000
-        self.y = -1000
+        self.x = -2000
+        self.y = -2000
 
     def check_hit(self):
-        if 280 <= self.y <= 300 and 120 <= self.x <= 150:
-            return 1
-        elif 133 <= self.y <= 279 and 120 <= self.x <= 150:
-            return 1
-        elif 102 <= self.y <= 132 and 120 <= self.x <= 150:
+        if 110 <= self.y <= 300 and 120 <= self.x <= 150:
             return 1
         elif self.y >= 301 and 0 <= self.x <= 150:
             return 0
-        elif self.y <= 101 and 0 <= self.x <= 150:
+        elif self.y <= 109 and 0 <= self.x <= 150:
             return 0
 
     def update(self, delta):
@@ -158,7 +150,7 @@ class World:
     def update(self, delta):
         if self.state == World.STATE_STARTED:
             self.war_wea.update(delta)
-        if self.war_wea.x >= self.monster.x:
+        if self.war_wea.x >= self.monster.x - 50:
             self.mon_wea.update(delta)
         if self.mon_wea.x <= -35 or self.mon_wea.y == -1000:
             self.state = World.STATE_FROZEN
