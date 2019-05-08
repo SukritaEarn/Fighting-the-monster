@@ -29,6 +29,7 @@ class War_Wea:
     VELOCITY_X = 10
     VELOCITY_Y = 0
     GRAVITY = 0.088
+    THROW_WAIT = 2
 
     def __init__(self, world, x, y):
         self.world = world
@@ -61,13 +62,13 @@ class War_Wea:
         self.y += self.vy
         self.vy -= War_Wea.GRAVITY
         self.angle -= 1
-
+        
 class Mon_Wea:
 
     VELOCITY_X = 10
-    VELOCITY_Y = random.randint(1,6)
+    VELOCITY_Y = random.randint(2,4)
     GRAVITY = 0.088
-    THROW_WAIT = 2
+    THROW_WAIT = 1
     
     def __init__(self, world, x, y):
         self.world = world
@@ -99,6 +100,15 @@ class Mon_Wea:
         self.vy -= Mon_Wea.GRAVITY
         self.angle += 0.7
 
+class Wind:
+    
+    def __init__(self, world, wind):
+        self.world = world
+        self.wind = wind
+
+    def update(self):
+        self.wind = random.randint(-3,3)
+
 class World:
 
     STATE_FROZEN = 1
@@ -116,27 +126,33 @@ class World:
         self.monster = Monster(self, 850, 230)
         self.war_wea = War_Wea(self, 120, 250)
         self.mon_wea = Mon_Wea(self, 850, 250)
+        self.wind = Wind(self, random.randint(-3,3))
 
     def start(self):
         self.state = World.STATE_STARTED
- 
-    def freeze(self):
-        self.state = World.STATE_FROZEN
+
+    def dead(self):
+        self.state = World.STATE_DEAD
 
     def is_started(self):
         return self.state == World.STATE_STARTED
 
+    def is_dead(self):
+        return self.state == World.STATE_DEAD
+
     def reset(self):
+        self.wind.update()
         self.war_wea.x = 120
         self.war_wea.y = 250
         self.war_wea.vx = 10
-        self.war_wea.vy = 0
+        self.war_wea.vy = 0 + self.wind.wind
         self.war_wea.angle = 0
         self.mon_wea.x = 850
         self.mon_wea.y = 250
         self.mon_wea.vx = 10
-        self.mon_wea.vy = random.randint(2,7)
+        self.mon_wea.vy = random.randint(2,7) - self.wind.wind
         self.mon_wea.angle = 0
+        self.mon_wea.wait_time = 0
 
     def on_mouse_press(self, x, y, button, modifiers):
         if button == arcade.MOUSE_BUTTON_LEFT:
