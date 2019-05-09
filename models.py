@@ -138,9 +138,6 @@ class World:
     def freeze(self):
         self.state = World.STATE_FROZEN
 
-    def is_mon_turn(self):
-        return self.turn == World.MON_TURN
-
     def is_started(self):
         return self.state == World.STATE_STARTED
 

@@ -124,10 +124,14 @@ class GameWindow(arcade.Window):
                                       SCREEN_WIDTH, SCREEN_HEIGHT, texture)
 
     def draw_game_over_win(self):
-        arcade.draw_rectangle_filled(SCREEN_WIDTH//2, SCREEN_HEIGHT//2, SCREEN_WIDTH, SCREEN_HEIGHT, arcade.color.OLD_BURGUNDY)
+        texture = arcade.load_texture("images/bg_win.png")
+        arcade.draw_texture_rectangle(SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2,
+                                      SCREEN_WIDTH, SCREEN_HEIGHT, texture)
 
     def draw_game_over_lose(self):
-        arcade.draw_rectangle_filled(SCREEN_WIDTH//2, SCREEN_HEIGHT//2, SCREEN_WIDTH, SCREEN_HEIGHT, arcade.color.OPERA_MAUVE)
+        texture = arcade.load_texture("images/bg_lose.png")
+        arcade.draw_texture_rectangle(SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2,
+                                      SCREEN_WIDTH, SCREEN_HEIGHT, texture)
 
     def draw_game(self):
         arcade.draw_texture_rectangle(SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2,
