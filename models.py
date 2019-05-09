@@ -11,7 +11,7 @@ class Warrior:
         self.angle = 0
     
     def update(self, delta):
-        pass
+        self.angle += 1
 
 class Monster:
 
@@ -22,7 +22,7 @@ class Monster:
         self.angle = 0
 
     def update(self, delta):
-        pass
+        self.angle += 1
 
 class War_Wea:
 
@@ -124,18 +124,22 @@ class World:
         self.height = height
         self.state = World.STATE_FROZEN
         self.turn = World.NO_TURN
-        
         self.warrior = Warrior(self, 120, 210)
         self.monster = Monster(self, 850, 230)
         self.war_wea = War_Wea(self, 120, 250)
         self.mon_wea = Mon_Wea(self, 850, 250)
         self.wind = Wind(self, random.randint(-3,3))
+        self.war_wea.vy += self.wind.wind
+        self.mon_wea.vy -= self.wind.wind
 
     def start(self):
         self.state = World.STATE_STARTED
 
     def freeze(self):
         self.state = World.STATE_FROZEN
+
+    def is_mon_turn(self):
+        return self.turn == World.MON_TURN
 
     def is_started(self):
         return self.state == World.STATE_STARTED
@@ -167,7 +171,6 @@ class World:
             if button == arcade.MOUSE_BUTTON_LEFT:
                 World.END_TIME = time.time()
                 self.war_wea.throw(World.START_TIME, World.END_TIME)
-            self.turn = World.MON_TURN
         else:
             World.END_TIME = 0
 
@@ -175,8 +178,8 @@ class World:
         if self.state == World.STATE_STARTED:
             self.war_wea.update(delta)
         if self.war_wea.x >= self.monster.x - 50:
-            self.turn = World.MON_TURN
             self.mon_wea.update(delta)
+            self.turn = World.MON_TURN
         if self.mon_wea.x <= -35 or self.mon_wea.y == -1000:
             self.state = World.STATE_FROZEN
             self.turn = World.NO_TURN

@@ -51,8 +51,6 @@ class GameWindow(arcade.Window):
                                         center_x = 850, center_y = 230)
         self.boom_sprite2 = arcade.Sprite('images/boom.png', 0.5,
                                         center_x = 125, center_y = 210)
-        self.sand_clock_sprite = arcade.Sprite('images/sand_clock.png', 0.3,
-                                        center_x = 850, center_y = 350)
         self.vs_sprite = arcade.Sprite('images/vs.png', 0.18,
                                        center_x = 500 , center_y = 530)
         self.power_sprite = Power(160, 310, 160, 310, 10)
