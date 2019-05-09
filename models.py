@@ -66,7 +66,7 @@ class War_Wea:
 class Mon_Wea:
 
     VELOCITY_X = 10
-    VELOCITY_Y = random.randint(10,11)
+    VELOCITY_Y = random.randint(9,13)
     GRAVITY = 0.3
     THROW_WAIT = 1
     
@@ -130,7 +130,6 @@ class World:
         self.mon_wea = Mon_Wea(self, 850, 250)
         self.wind = Wind(self, random.randint(-3,3))
         self.war_wea.vy += self.wind.wind
-        self.mon_wea.vy -= self.wind.wind
 
     def start(self):
         self.state = World.STATE_STARTED
@@ -154,7 +153,7 @@ class World:
         self.mon_wea.x = 850
         self.mon_wea.y = 250
         self.mon_wea.vx = 10
-        self.mon_wea.vy = random.randint(10,11) - self.wind.wind
+        self.mon_wea.vy = random.randint(9,13)
         self.mon_wea.angle = 0
         self.mon_wea.wait_time = 0
 

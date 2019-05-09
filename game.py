@@ -193,8 +193,12 @@ class GameWindow(arcade.Window):
 
         if self.reduce_mon_hp.width >= 360:
             self.current_state = GAME_OVER_WIN
+            self.reduce_mon_hp = Reduce_Mon_HP(950, 530, 0, 22)
+            self.reduce_war_hp = Reduce_War_HP(50, 530, 0, 22)
         if self.reduce_war_hp.width >= 360:
             self.current_state = GAME_OVER_LOSE
+            self.reduce_mon_hp = Reduce_Mon_HP(950, 530, 0, 22)
+            self.reduce_war_hp = Reduce_War_HP(50, 530, 0, 22)
 
     def on_draw(self):
         arcade.start_render()
