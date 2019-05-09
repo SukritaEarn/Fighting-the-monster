@@ -141,6 +141,9 @@ class World:
     def is_started(self):
         return self.state == World.STATE_STARTED
 
+    def is_war_turn(self):
+        return self.turn == World.WAR_TURN
+
     def reset(self):
         self.wind.update()
         self.war_wea.x = 120
@@ -168,6 +171,7 @@ class World:
             if button == arcade.MOUSE_BUTTON_LEFT:
                 World.END_TIME = time.time()
                 self.war_wea.throw(World.START_TIME, World.END_TIME)
+            self.turn = World.MON_TURN
         else:
             World.END_TIME = 0
 
@@ -176,7 +180,6 @@ class World:
             self.war_wea.update(delta)
         if self.war_wea.x >= self.monster.x - 50:
             self.mon_wea.update(delta)
-            self.turn = World.MON_TURN
         if self.mon_wea.x <= -35 or self.mon_wea.y == -1000:
             self.state = World.STATE_FROZEN
             self.turn = World.NO_TURN

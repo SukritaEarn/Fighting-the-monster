@@ -176,6 +176,9 @@ class GameWindow(arcade.Window):
         if self.world.mon_wea.check_hit() == 0:
             self.miss_sprite2.draw()
 
+        if not self.world.is_war_turn():
+            self.power_sprite.remove()  
+
         arcade.draw_circle_filled(430, 530, 33, arcade.color.BLACK_BEAN)
         arcade.draw_circle_filled(430, 530, 28, arcade.color.RED_BROWN)
         self.war_icon_sprite.draw()
