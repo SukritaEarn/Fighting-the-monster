@@ -5,6 +5,12 @@ SCREEN_WIDTH = 1000
 SCREEN_HEIGHT = 600
 SCREEN_TITLE = 'Fighting the monster'
 
+INSTRUCTION_PAGE = 0
+HOW_TO_PLAY = 1
+GAME_RUNNING = 2
+GAME_OVER_WIN = 3
+GAME_OVER_LOSE = 4
+
 class ModelSprite(arcade.Sprite):
     def __init__(self, *args, **kwargs):
         self.model = kwargs.pop('model', None)
@@ -22,9 +28,9 @@ class ModelSprite(arcade.Sprite):
 class GameWindow(arcade.Window):
     def __init__(self, width, height, title):
         super().__init__(width, height, title)
+        self.current_state = INSTRUCTION_PAGE
         self.background = arcade.load_texture('images/bg.png')
         self.world = World(SCREEN_WIDTH, SCREEN_HEIGHT)
-
         self.warrior_sprite = ModelSprite('images/warrior.png', 
                                         model=self.world.warrior)
         self.monster_sprite = ModelSprite('images/mon.png',
@@ -53,17 +59,37 @@ class GameWindow(arcade.Window):
         self.check_press = None
         self.reduce_mon_hp = Reduce_Mon_HP(950, 530, 0, 22)
         self.reduce_war_hp = Reduce_War_HP(50, 530, 0, 22)
+
+    def on_key_press(self, key, modifiers):
+        if key == arcade.key.H and self.current_state == INSTRUCTION_PAGE:
+            self.current_state = HOW_TO_PLAY
+        elif key == arcade.key.P and self.current_state == INSTRUCTION_PAGE:
+            self.current_state = GAME_RUNNING
+        elif key == arcade.key.P and self.current_state == HOW_TO_PLAY:
+            self.current_state = GAME_RUNNING
+        elif key == arcade.key.B and self.current_state == HOW_TO_PLAY:
+            self.current_state = INSTRUCTION_PAGE
+        elif key == arcade.key.R and self.current_state == GAME_OVER_WIN:
+            self.current_state = INSTRUCTION_PAGE
+        elif key == arcade.key.R and self.current_state == GAME_OVER_LOSE:
+            self.current_state = INSTRUCTION_PAGE
+        elif key == arcade.key.Q and self.current_state == GAME_RUNNING:
+            self.current_state = INSTRUCTION_PAGE
     
     def on_mouse_press(self, x, y, button, modifiers):
-        self.world.on_mouse_press(x, y, button, modifiers)
-        self.power_sprite = Power(160, 310, 160, 310, 10)
-        self.check_press = 1
+        if self.current_state == GAME_RUNNING:
+            self.world.on_mouse_press(x, y, button, modifiers)
+            self.power_sprite = Power(160, 310, 160, 310, 10)
+            self.check_press = 1
         
     def on_mouse_release(self, x, y, button, modifiers):
-        if not self.world.is_started():
-            self.world.start()
-        self.world.on_mouse_release(x, y, button, modifiers)
-        self.check_press = 2
+        if self.current_state == GAME_RUNNING:
+            if not self.world.is_started():
+                self.world.start()
+            self.world.on_mouse_release(x, y, button, modifiers)
+            self.check_press = 2
+        else:
+            self.world.freeze()
 
     def wind_sprite(self, wind):
         if wind == 0:
@@ -84,13 +110,28 @@ class GameWindow(arcade.Window):
             return
 
     def update(self, delta):
-        self.world.update(delta)
-        if self.check_press == 1:
-            self.power_sprite.update(delta)
+        if self.current_state == GAME_RUNNING:
+            self.world.update(delta)
+            if self.check_press == 1:
+                self.power_sprite.update(delta)
 
-    def on_draw(self):
-        arcade.start_render()
-        
+    def draw_instruction_page(self):
+        texture = arcade.load_texture("images/instruction_page.png")
+        arcade.draw_texture_rectangle(SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2,
+                                      SCREEN_WIDTH, SCREEN_HEIGHT, texture)
+
+    def draw_how_to_play(self):
+        texture = arcade.load_texture("images/how_to_play.png")
+        arcade.draw_texture_rectangle(SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2,
+                                      SCREEN_WIDTH, SCREEN_HEIGHT, texture)
+
+    def draw_game_over_win(self):
+        arcade.draw_rectangle_filled(SCREEN_WIDTH//2, SCREEN_HEIGHT//2, SCREEN_WIDTH, SCREEN_HEIGHT, arcade.color.OLD_BURGUNDY)
+
+    def draw_game_over_lose(self):
+        arcade.draw_rectangle_filled(SCREEN_WIDTH//2, SCREEN_HEIGHT//2, SCREEN_WIDTH, SCREEN_HEIGHT, arcade.color.OPERA_MAUVE)
+
+    def draw_game(self):
         arcade.draw_texture_rectangle(SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2,
                                       SCREEN_WIDTH, SCREEN_HEIGHT, self.background)
 
@@ -145,11 +186,28 @@ class GameWindow(arcade.Window):
         arcade.draw_circle_filled(500, 460, 5, arcade.color.YELLOW)
         self.wind_sprite(self.world.wind.wind)
 
-        if self.reduce_mon_hp.width >= 360 or self.reduce_war_hp.width >= 360:
-            self.world.dead()
+        if self.reduce_mon_hp.width >= 360:
+            self.current_state = GAME_OVER_WIN
+        if self.reduce_war_hp.width >= 360:
+            self.current_state = GAME_OVER_LOSE
 
-        if self.world.is_dead():
-            print('game over')
+    def on_draw(self):
+        arcade.start_render()
+
+        if self.current_state == INSTRUCTION_PAGE:
+            self.draw_instruction_page()
+
+        elif self.current_state == HOW_TO_PLAY:
+            self.draw_how_to_play()
+
+        elif self.current_state == GAME_RUNNING:
+            self.draw_game()
+
+        elif self.current_state == GAME_OVER_WIN:
+            self.draw_game_over_win()
+
+        elif self.current_state == GAME_OVER_LOSE:
+            self.draw_game_over_lose()
 
 class Reduce_Mon_HP:
 
