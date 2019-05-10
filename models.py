@@ -9,9 +9,10 @@ class Warrior:
         self.x = x
         self.y = y
         self.angle = 0
+        self.wait_time = 0
     
     def update(self, delta):
-        self.angle += 1
+        pass
 
 class Monster:
 
@@ -20,9 +21,10 @@ class Monster:
         self.x = x
         self.y = y
         self.angle = 0
+        self.wait_time = 0
 
     def update(self, delta):
-        self.angle += 1
+        pass
 
 class War_Wea:
 
@@ -175,6 +177,8 @@ class World:
             World.END_TIME = 0
 
     def update(self, delta):
+        self.warrior.update(delta)
+        self.monster.update(delta)
         if self.state == World.STATE_STARTED:
             self.war_wea.update(delta)
         if self.war_wea.x >= self.monster.x - 50:
