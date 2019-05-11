@@ -75,6 +75,7 @@ class GameWindow(arcade.Window):
             self.current_state = INSTRUCTION_PAGE
             self.reduce_mon_hp = Reduce_Mon_HP(950, 530, 0, 22)
             self.reduce_war_hp = Reduce_War_HP(50, 530, 0, 22)
+            self.world.reset()
     
     def on_mouse_press(self, x, y, button, modifiers):
         if self.current_state == GAME_RUNNING:
@@ -201,10 +202,12 @@ class GameWindow(arcade.Window):
             self.current_state = GAME_OVER_WIN
             self.reduce_mon_hp = Reduce_Mon_HP(950, 530, 0, 22)
             self.reduce_war_hp = Reduce_War_HP(50, 530, 0, 22)
+            self.world.reset()
         if self.reduce_war_hp.width >= 360:
             self.current_state = GAME_OVER_LOSE
             self.reduce_mon_hp = Reduce_Mon_HP(950, 530, 0, 22)
             self.reduce_war_hp = Reduce_War_HP(50, 530, 0, 22)
+            self.world.reset()
 
     def on_draw(self):
         arcade.start_render()

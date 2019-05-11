@@ -41,8 +41,8 @@ class War_Wea:
         self.vy = War_Wea.VELOCITY_Y
         self.angle = 0
 
-    def throw(self, start, end):
-        self.vy = (end - start)*2
+    def throw(self, start, end, wind):
+        self.vy = (end - start)*2 + wind
     
     def kill(self):
         self.x = 2000
@@ -65,7 +65,7 @@ class War_Wea:
 class Mon_Wea:
 
     VELOCITY_X = 10
-    VELOCITY_Y = random.randint(7,10)
+    VELOCITY_Y = random.randint(6, 9)
     GRAVITY = 0.3
     THROW_WAIT = 1
     
@@ -150,12 +150,12 @@ class World:
         self.war_wea.x = 120
         self.war_wea.y = 250
         self.war_wea.vx = 15
-        self.war_wea.vy = 0 + self.wind.wind
+        self.war_wea.vy = 0
         self.war_wea.angle = 0
         self.mon_wea.x = 850
         self.mon_wea.y = 250
         self.mon_wea.vx = 15
-        self.mon_wea.vy = random.randint(7,10)
+        self.mon_wea.vy = random.randint(6,9)
         self.mon_wea.angle = 0
         self.mon_wea.wait_time = 0
 
@@ -171,7 +171,7 @@ class World:
         if self.turn == World.WAR_TURN:
             if button == arcade.MOUSE_BUTTON_LEFT:
                 World.END_TIME = time.time()
-                self.war_wea.throw(World.START_TIME, World.END_TIME)
+                self.war_wea.throw(World.START_TIME, World.END_TIME, self.wind.wind)
             self.turn = World.MON_TURN
         else:
             World.END_TIME = 0
