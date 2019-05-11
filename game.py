@@ -73,6 +73,8 @@ class GameWindow(arcade.Window):
             self.current_state = INSTRUCTION_PAGE
         elif key == arcade.key.Q and self.current_state == GAME_RUNNING:
             self.current_state = INSTRUCTION_PAGE
+            self.reduce_mon_hp = Reduce_Mon_HP(950, 530, 0, 22)
+            self.reduce_war_hp = Reduce_War_HP(50, 530, 0, 22)
     
     def on_mouse_press(self, x, y, button, modifiers):
         if self.current_state == GAME_RUNNING:
@@ -175,6 +177,10 @@ class GameWindow(arcade.Window):
 
         if self.world.mon_wea.check_hit() == 0:
             self.miss_sprite2.draw()
+
+        if self.world.is_war_turn() or self.world.is_no_turn():
+            arcade.draw_triangle_filled(100, 345, 130, 345, 115, 325, arcade.color.RED)
+            arcade.draw_text('Your turn', 80, 355, arcade.color.YELLOW, 14, bold=True)
 
         if not self.world.is_war_turn():
             self.power_sprite.remove()  

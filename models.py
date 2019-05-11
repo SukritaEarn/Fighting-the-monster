@@ -42,10 +42,7 @@ class War_Wea:
         self.angle = 0
 
     def throw(self, start, end):
-        if end - start >= 7:
-            start = 0
-            end = 0
-        self.vy = (end - start)*5
+        self.vy = (end - start)*2
     
     def kill(self):
         self.x = 2000
@@ -68,7 +65,7 @@ class War_Wea:
 class Mon_Wea:
 
     VELOCITY_X = 10
-    VELOCITY_Y = random.randint(9,13)
+    VELOCITY_Y = random.randint(7,10)
     GRAVITY = 0.3
     THROW_WAIT = 1
     
@@ -145,17 +142,20 @@ class World:
     def is_war_turn(self):
         return self.turn == World.WAR_TURN
 
+    def is_no_turn(self):
+        return self.turn == World.NO_TURN
+
     def reset(self):
         self.wind.update()
         self.war_wea.x = 120
         self.war_wea.y = 250
-        self.war_wea.vx = 10
+        self.war_wea.vx = 15
         self.war_wea.vy = 0 + self.wind.wind
         self.war_wea.angle = 0
         self.mon_wea.x = 850
         self.mon_wea.y = 250
-        self.mon_wea.vx = 10
-        self.mon_wea.vy = random.randint(9,13)
+        self.mon_wea.vx = 15
+        self.mon_wea.vy = random.randint(7,10)
         self.mon_wea.angle = 0
         self.mon_wea.wait_time = 0
 
